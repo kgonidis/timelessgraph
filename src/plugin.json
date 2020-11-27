@@ -1,0 +1,42 @@
+{
+  "type": "panel",
+  "name": "timelessgraph",
+  "id": "thales-timelessgraph",
+  "info": {
+    "description": "Generate graphs without time series requirements",
+    "author": {
+      "name": "kiron",
+      "url": "www.thalesgroup.com"
+    },
+    "keywords": [
+      "graph",
+      "notime",
+      "timeless",
+      "bar",
+      "line",
+      "area",
+      "scatter"
+    ],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/simple-react-panel"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/grafana/simple-react-panel/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaVersion": "7.0.x",
+    "plugins": []
+  }
+}
