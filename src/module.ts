@@ -84,7 +84,7 @@ export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
       .addNumberInput({
         path: 'marginRight',
         name: 'Margin Right',
-        defaultValue: 0,
+        defaultValue: 20,
         settings: {
           min: 0,
           step: 5,
@@ -94,7 +94,7 @@ export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
       .addNumberInput({
         path: 'marginTop',
         name: 'Margin Top',
-        defaultValue: 0,
+        defaultValue: 20,
         settings: {
           min: 0,
           step: 5,

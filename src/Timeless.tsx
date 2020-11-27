@@ -188,7 +188,7 @@ export class TimelessPanel extends React.Component<Props> {
                 ? {
                     text: Xname,
                     font: {
-                      family: theme.typography.fontFamily.monospace,
+                      family: theme.typography.fontFamily.sansSerif,
                       color: theme.colors.text,
                       size: options.titleSize,
                     },
@@ -204,7 +204,7 @@ export class TimelessPanel extends React.Component<Props> {
                 ? {
                     text: Yname,
                     font: {
-                      family: theme.typography.fontFamily.monospace,
+                      family: theme.typography.fontFamily.sansSerif,
                       color: theme.colors.text,
                       size: options.titleSize,
                     },
@@ -212,7 +212,10 @@ export class TimelessPanel extends React.Component<Props> {
                 : undefined,
               linecolor: theme.colors.text,
               tickcolor: theme.colors.text,
-              tickfont: { color: theme.colors.text },
+              tickfont: {
+                color: theme.colors.text,
+                family: theme.typography.fontFamily.sansSerif,
+              },
             },
             margin: {
               l: options.marginLeft,
@@ -221,6 +224,12 @@ export class TimelessPanel extends React.Component<Props> {
               t: options.marginTop,
             },
             showlegend: options.showLegend,
+            legend: {
+              font: {
+                color: theme.colors.text,
+                family: theme.typography.fontFamily.sansSerif,
+              },
+            },
           }}
           config={{
             modeBarButtonsToRemove: ['lasso2d', 'toggleSpikelines', 'hoverClosestCartesian', 'hoverCompareCartesian'],
