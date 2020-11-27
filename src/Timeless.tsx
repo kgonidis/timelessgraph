@@ -63,6 +63,7 @@ export class TimelessPanel extends React.Component<Props> {
     let Y: any[] | undefined;
     let Xname: string | undefined;
     let Yname: string | undefined;
+    let Mname: string | undefined;
     const tp = ['line', 'scatter'].includes(options.plotType) ? 'scattergl' : (options.plotType as PlotType);
     let mode: 'lines' | 'markers' | undefined = undefined;
     if (options.plotType === 'line') {
@@ -74,6 +75,7 @@ export class TimelessPanel extends React.Component<Props> {
       for (const field of fields) {
         if (field.name === 'metric' || field.name === 'metrics') {
           metrics = field.values.toArray();
+          Mname = field.config.displayName || field.name;
         } else if (X === undefined) {
           X = field.values.toArray();
           Xname = field.config.displayName || field.name;
@@ -107,6 +109,12 @@ export class TimelessPanel extends React.Component<Props> {
             x: X,
             y: Y,
             z: metrics,
+            colorscale: [
+              [0, '#5794F2'],
+              [0.5, '#73BF69'],
+              [1, '#F2495C'],
+            ],
+            hovertemplate: `${Xname}: %{x}<br>${Yname}: %{y}<br>${Mname}: %{z}<extra></extra>`,
           });
         } else {
           const uniqueMetrics = metrics.Unique();

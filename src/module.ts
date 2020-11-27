@@ -193,5 +193,5 @@ export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
       });
   })
   .useFieldConfig({
-    standardOptions: [FieldConfigProperty.DisplayName],
+    standardOptions: ['displayName' as FieldConfigProperty],
   });
