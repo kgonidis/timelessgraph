@@ -1,6 +1,6 @@
 {
   "type": "panel",
-  "name": "timelessgraph",
+  "name": "Graph No Timeseries",
   "id": "thales-timelessgraph",
   "info": {
     "description": "Generate graphs without time series requirements",
@@ -24,11 +24,11 @@
     "links": [
       {
         "name": "Website",
-        "url": "https://github.com/grafana/simple-react-panel"
+        "url": "https://github.com/kgonidis/timelessgraph"
       },
       {
         "name": "License",
-        "url": "https://github.com/grafana/simple-react-panel/blob/master/LICENSE"
+        "url": "https://github.com/kgonidis/timelessgraph/blob/master/LICENSE"
       }
     ],
     "screenshots": [],
