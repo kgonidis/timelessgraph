@@ -26,6 +26,10 @@ export interface TimelessOptions {
   showXAxisTitle: boolean;
   showYAxisTitle: boolean;
   titleSize: number;
+  lat: number;
+  lon: number;
+  zoom: number;
+  radius: number;
 }
 
 interface Props extends PanelProps<TimelessOptions> {}
@@ -71,19 +75,37 @@ export class TimelessPanel extends React.Component<Props> {
     } else if (options.plotType === 'scatter') {
       mode = 'markers';
     }
+    let mapboxLayout = undefined;
     if (data.state === LoadingState.Done) {
-      for (const field of fields) {
-        if (field.name === 'metric' || field.name === 'metrics') {
-          metrics = field.values.toArray();
-          Mname = field.config.displayName || field.name;
-        } else if (X === undefined) {
-          X = field.values.toArray();
-          Xname = field.config.displayName || field.name;
-        } else if (Y === undefined) {
-          Y = field.values.toArray();
-          Yname = field.config.displayName || field.name;
-        } else {
-          break;
+      if (options.plotType === 'densitymapbox') {
+        for (const field of fields) {
+          if (field.name === 'metric' || field.name === 'metrics') {
+            metrics = field.values.toArray();
+            Mname = field.config.displayName || field.name;
+          } else if (field.name === 'lat') {
+            X = field.values.toArray();
+            Xname = field.config.displayName || field.name;
+          } else if (field.name === 'lon') {
+            Y = field.values.toArray();
+            Yname = field.config.displayName || field.name;
+          } else {
+            break;
+          }
+        }
+      } else {
+        for (const field of fields) {
+          if (field.name === 'metric' || field.name === 'metrics') {
+            metrics = field.values.toArray();
+            Mname = field.config.displayName || field.name;
+          } else if (X === undefined) {
+            X = field.values.toArray();
+            Xname = field.config.displayName || field.name;
+          } else if (Y === undefined) {
+            Y = field.values.toArray();
+            Yname = field.config.displayName || field.name;
+          } else {
+            break;
+          }
         }
       }
 
@@ -105,7 +127,7 @@ export class TimelessPanel extends React.Component<Props> {
       if (metrics?.length) {
         if (options.plotType === 'heatmap') {
           traces.push({
-            type: 'heatmap',
+            type: options.plotType,
             x: X,
             y: Y,
             z: metrics,
@@ -116,6 +138,28 @@ export class TimelessPanel extends React.Component<Props> {
             ],
             hovertemplate: `${Xname}: %{x}<br>${Yname}: %{y}<br>${Mname}: %{z}<extra></extra>`,
           });
+        } else if (options.plotType === 'densitymapbox') {
+          traces.push({
+            type: options.plotType,
+            lat: X,
+            lon: Y,
+            z: metrics,
+            radius: options.radius,
+            colorscale: [
+              [0, '#5794F2'],
+              [0.5, '#73BF69'],
+              [1, '#F2495C'],
+            ],
+            hovertemplate: `${Xname}: %{lat}<br>${Yname}: %{lon}<br>${Mname}: %{z}<extra></extra>`,
+          });
+          mapboxLayout = {
+            center: {
+              lat: options.lat,
+              lon: options.lon,
+            },
+            zoom: options.zoom,
+            style: 'open-street-map',
+          };
         } else {
           const uniqueMetrics = metrics.Unique();
           const uniqueX = X.Unique();
@@ -230,10 +274,15 @@ export class TimelessPanel extends React.Component<Props> {
                 family: theme.typography.fontFamily.sansSerif,
               },
             },
+            mapbox: mapboxLayout,
           }}
           config={{
             modeBarButtonsToRemove: ['lasso2d', 'toggleSpikelines', 'hoverClosestCartesian', 'hoverCompareCartesian'],
             displaylogo: false,
+            mapboxAccessToken:
+              options.plotType === 'densitymapbox'
+                ? 'pk.eyJ1Ijoia2dvbmlkaXMiLCJhIjoiY2tlY3hyZHBkMGdidjJxcDNyanhqZmF0ZCJ9.fpUmRv0Mb7XwB7cYojQGiA'
+                : undefined,
           }}
         />
       </div>

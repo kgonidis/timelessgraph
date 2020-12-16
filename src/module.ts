@@ -26,6 +26,10 @@ export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
               value: 'heatmap',
               label: 'Heatmap',
             },
+            {
+              value: 'densitymapbox',
+              label: 'GeoHeat',
+            },
           ],
         },
       })
@@ -110,6 +114,50 @@ export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
           step: 5,
           integer: true,
         },
+      })
+      .addNumberInput({
+        path: 'lat',
+        name: 'Map Center Latitude',
+        defaultValue: 40.7472113,
+        settings: {
+          min: 0,
+          step: 5,
+          integer: false,
+        },
+        showIf: config => config.plotType === 'densitymapbox',
+      })
+      .addNumberInput({
+        path: 'lon',
+        name: 'Map Center Longitude',
+        defaultValue: -73.9055751,
+        settings: {
+          min: 0,
+          step: 5,
+          integer: false,
+        },
+        showIf: config => config.plotType === 'densitymapbox',
+      })
+      .addNumberInput({
+        path: 'zoom',
+        name: 'Map Center Zoom',
+        defaultValue: 14,
+        settings: {
+          min: 0,
+          step: 1,
+          integer: false,
+        },
+        showIf: config => config.plotType === 'densitymapbox',
+      })
+      .addNumberInput({
+        path: 'radius',
+        name: 'GeoHeat radius',
+        defaultValue: 15,
+        settings: {
+          min: 0,
+          step: 1,
+          integer: true,
+        },
+        showIf: config => config.plotType === 'densitymapbox',
       })
       .addColorPicker({
         path: 'fieldColor1',
