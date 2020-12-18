@@ -137,6 +137,8 @@ export class TimelessPanel extends React.Component<Props> {
               [1, '#F2495C'],
             ],
             hovertemplate: `${Xname}: %{x}<br>${Yname}: %{y}<br>${Mname}: %{z}<extra></extra>`,
+            xgap: 2,
+            ygap: 2
           });
         } else if (options.plotType === 'densitymapbox') {
           traces.push({
