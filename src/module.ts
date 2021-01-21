@@ -61,6 +61,11 @@ export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
         },
       })
       .addBooleanSwitch({
+        path: 'percentage',
+        name: 'Display Bar Plot as percentage',
+        defaultValue: false,
+      })
+      .addBooleanSwitch({
         path: 'showXAxisTitle',
         name: 'Show X Axis Title',
         defaultValue: false,

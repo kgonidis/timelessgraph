@@ -11,6 +11,7 @@ export interface TimelessOptions {
   plotType: string;
   barType: BarType;
   showLegend: boolean;
+  percentage: boolean;
   fieldColor1: string;
   fieldColor2: string;
   fieldColor3: string;
@@ -166,7 +167,7 @@ export class TimelessPanel extends React.Component<Props> {
           const uniqueMetrics = metrics.Unique();
           const uniqueX = X.Unique();
           const plotY = uniqueX.map(_v => 0);
-          const Ys = [];
+          const Ys: number[][] = [];
 
           for (let i = 0; i < uniqueMetrics.length; i++) {
             const metric = uniqueMetrics[i];
@@ -190,6 +191,15 @@ export class TimelessPanel extends React.Component<Props> {
             const mid = uniqueMetrics.indexOf(metric);
             const xid = uniqueX.indexOf(x);
             Ys[mid][xid] = y;
+          }
+
+          if (options.percentage) {
+            for (let i = 0; i < plotY.length; i++) {
+              const sum = metrics.map((_, j) => Ys[j][i]).reduce((p, c) => p + c, 0);
+              metrics.forEach((_, j) => {
+                Ys[j] = Ys[j].map(v => (100 * v) / sum);
+              });
+            }
           }
 
           for (let i = 0; i < traces.length; i++) {
