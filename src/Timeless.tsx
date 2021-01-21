@@ -195,9 +195,10 @@ export class TimelessPanel extends React.Component<Props> {
 
           if (options.percentage) {
             for (let i = 0; i < plotY.length; i++) {
-              const sum = metrics.map((_, j) => Ys[j][i]).reduce((p, c) => p + c, 0);
-              metrics.forEach((_, j) => {
-                Ys[j] = Ys[j].map(v => (100 * v) / sum);
+              const ys = uniqueMetrics.map((_, j) => Ys[j][i]);
+              const sum = ys.reduce((p, c) => p + c, 0);
+              uniqueMetrics.forEach((_, j) => {
+                Ys[j][i] = (100 * Ys[j][i]) / sum;
               });
             }
           }

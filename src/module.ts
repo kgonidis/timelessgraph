@@ -1,4 +1,4 @@
-import { PanelPlugin, FieldConfigProperty } from '@grafana/data';
+import { PanelPlugin } from '@grafana/data';
 import { TimelessPanel, TimelessOptions } from './Timeless';
 
 export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
@@ -64,6 +64,7 @@ export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
         path: 'percentage',
         name: 'Display Bar Plot as percentage',
         defaultValue: false,
+        showIf: config => config.plotType === 'bar',
       })
       .addBooleanSwitch({
         path: 'showXAxisTitle',
@@ -245,6 +246,4 @@ export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
         },
       });
   })
-  .useFieldConfig({
-    standardOptions: ['displayName' as FieldConfigProperty],
-  });
+  .useFieldConfig();
