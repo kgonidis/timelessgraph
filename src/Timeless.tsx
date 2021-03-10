@@ -6,6 +6,7 @@ import { Data, PlotType } from 'plotly.js';
 import Plot from 'react-plotly.js';
 
 type BarType = 'group' | 'stack';
+type InterpolationType = 'linear' | 'log';
 
 export interface TimelessOptions {
   plotType: string;
@@ -31,6 +32,12 @@ export interface TimelessOptions {
   lon: number;
   zoom: number;
   radius: number;
+  radius_use_data: boolean;
+  interpType: InterpolationType;
+  zlimits: boolean;
+  zmin: number;
+  zmax: number;
+  zmid: number;
 }
 
 interface Props extends PanelProps<TimelessOptions> {}
@@ -142,12 +149,24 @@ export class TimelessPanel extends React.Component<Props> {
             ygap: 2,
           });
         } else if (options.plotType === 'densitymapbox') {
+          let r: number | number[] = options.radius;
+          if (options.radius_use_data) {
+            const max = Math.max(...metrics);
+            const logmax = Math.log(max);
+            r =
+              options.interpType === 'log'
+                ? metrics.map(v => (options.radius * v) / max)
+                : metrics.map(v => (options.radius * Math.log(v)) / logmax);
+          }
           traces.push({
             type: options.plotType,
             lat: X,
             lon: Y,
             z: metrics,
-            radius: options.radius,
+            radius: r,
+            zmin: options.zlimits ? options.zmin : undefined,
+            zmax: options.zlimits ? options.zmax : undefined,
+            zmid: options.zlimits ? options.zmid : undefined,
             colorscale: [
               [0, '#5794F2'],
               [0.5, '#73BF69'],

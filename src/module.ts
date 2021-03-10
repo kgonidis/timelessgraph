@@ -165,6 +165,68 @@ export const plugin = new PanelPlugin<TimelessOptions>(TimelessPanel)
         },
         showIf: config => config.plotType === 'densitymapbox',
       })
+      .addBooleanSwitch({
+        path: 'radius_use_data',
+        name: 'Radius from data',
+        defaultValue: false,
+      })
+      .addRadio({
+        path: 'interpType',
+        defaultValue: 'linear',
+        name: 'Heatmap Interpolation',
+        settings: {
+          options: [
+            {
+              value: 'linear',
+              label: 'linear',
+            },
+            {
+              value: 'log',
+              label: 'log',
+            },
+          ],
+        },
+        showIf: config => config.plotType === 'densitymapbox',
+      })
+      .addBooleanSwitch({
+        path: 'zlimits',
+        name: 'Custom Z limits for coloring',
+        defaultValue: false,
+        showIf: config => config.plotType === 'densitymapbox',
+      })
+      .addNumberInput({
+        path: 'zmin',
+        name: 'Minimum z value',
+        defaultValue: 0,
+        settings: {
+          min: 0,
+          step: 1,
+          integer: true,
+        },
+        showIf: config => config.plotType === 'densitymapbox' && config.zlimits,
+      })
+      .addNumberInput({
+        path: 'zmax',
+        name: 'Maximum Z value',
+        defaultValue: 100,
+        settings: {
+          min: 0,
+          step: 1,
+          integer: true,
+        },
+        showIf: config => config.plotType === 'densitymapbox' && config.zlimits,
+      })
+      .addNumberInput({
+        path: 'zmid',
+        name: 'Z value midpoint',
+        defaultValue: 50,
+        settings: {
+          min: 0,
+          step: 1,
+          integer: true,
+        },
+        showIf: config => config.plotType === 'densitymapbox' && config.zlimits,
+      })
       .addColorPicker({
         path: 'fieldColor1',
         name: 'Metric 1 Color',
